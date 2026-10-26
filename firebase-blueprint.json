@@ -1,0 +1,314 @@
+{
+  "entities": {
+    "PublicProfile": {
+      "title": "PublicProfile",
+      "description": "Public adult dating profile card without PII.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner Firebase UID" },
+        "displayName": { "type": "string", "description": "Display name (2-40 chars)" },
+        "birthYear": { "type": "integer", "description": "Year of birth (<= 2008 for 18+)" },
+        "age": { "type": "integer", "description": "Adult age (18-100)" },
+        "gender": { "type": "string", "enum": ["female", "male"], "description": "Immutable gender for pricing policy" },
+        "bio": { "type": "string", "description": "Short profile bio" },
+        "city": { "type": "string", "description": "Coarse city/region label" },
+        "distanceKm": { "type": "integer", "description": "Approximate distance in km" },
+        "interests": { "type": "array", "description": "Up to 8 interest tags" },
+        "photoKey": { "type": "string", "description": "Profile photo identifier or URI" },
+        "verified": { "type": "boolean", "description": "Admin-verified badge status" },
+        "visibility": { "type": "string", "enum": ["discoverable", "paused"], "description": "Profile discovery visibility" },
+        "isOnline": { "type": "boolean", "description": "Online presence indicator" },
+        "minPreferredAge": { "type": "integer", "description": "Minimum preferred partner age" },
+        "maxPreferredAge": { "type": "integer", "description": "Maximum preferred partner age" },
+        "maxDistanceKm": { "type": "integer", "description": "Maximum preferred partner distance" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp via FieldValue.serverTimestamp()" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp via FieldValue.serverTimestamp()" }
+      },
+      "required": [
+        "userId", "displayName", "birthYear", "age", "gender", "bio", "city",
+        "distanceKm", "interests", "photoKey", "verified", "visibility",
+        "isOnline", "minPreferredAge", "maxPreferredAge", "maxDistanceKm",
+        "createdAt", "updatedAt"
+      ]
+    },
+    "UserPrivateInfo": {
+      "title": "UserPrivateInfo",
+      "description": "Strictly owner-isolated PII and legal consent state.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "ageConfirmed18Plus": { "type": "boolean" },
+        "callPrivacyConsent": { "type": "boolean" },
+        "notificationsEnabled": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId", "email", "phone", "ageConfirmed18Plus",
+        "callPrivacyConsent", "notificationsEnabled", "createdAt", "updatedAt"
+      ]
+    },
+    "PricingConfig": {
+      "title": "PricingConfig",
+      "description": "Admin-controlled coin rates, packages, and female free-access policy.",
+      "type": "object",
+      "properties": {
+        "configId": { "type": "string" },
+        "femaleFreeChatEnabled": { "type": "boolean" },
+        "femaleFreeCallsEnabled": { "type": "boolean" },
+        "femaleDailyFreeMessagesLimit": { "type": "integer" },
+        "maleMessageCostCoins": { "type": "integer" },
+        "maleAudioCallCoinsPerMin": { "type": "integer" },
+        "maleVideoCallCoinsPerMin": { "type": "integer" },
+        "lowBalanceWarningThresholdCoins": { "type": "integer" },
+        "starterPackCoins": { "type": "integer" },
+        "starterPackPriceUsd": { "type": "string" },
+        "popularPackCoins": { "type": "integer" },
+        "popularPackPriceUsd": { "type": "string" },
+        "vipPackCoins": { "type": "integer" },
+        "vipPackPriceUsd": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "configId", "femaleFreeChatEnabled", "femaleFreeCallsEnabled",
+        "femaleDailyFreeMessagesLimit", "maleMessageCostCoins",
+        "maleAudioCallCoinsPerMin", "maleVideoCallCoinsPerMin",
+        "lowBalanceWarningThresholdCoins", "starterPackCoins",
+        "starterPackPriceUsd", "popularPackCoins", "popularPackPriceUsd",
+        "vipPackCoins", "vipPackPriceUsd", "updatedAt"
+      ]
+    },
+    "Wallet": {
+      "title": "Wallet",
+      "description": "User coin credit balance and cumulative counters.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "balanceCoins": { "type": "integer" },
+        "totalPurchasedCoins": { "type": "integer" },
+        "totalSpentCoins": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "balanceCoins", "totalPurchasedCoins", "totalSpentCoins", "createdAt", "updatedAt"]
+    },
+    "WalletTransaction": {
+      "title": "WalletTransaction",
+      "description": "Immutable idempotent coin transaction and payment order ledger.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "idempotencyKey": { "type": "string" },
+        "type": { "type": "string", "enum": ["welcome_bonus", "coin_purchase", "paid_message", "audio_call", "video_call"] },
+        "deltaCoins": { "type": "integer" },
+        "balanceAfter": { "type": "integer" },
+        "description": { "type": "string" },
+        "status": { "type": "string", "enum": ["completed", "failed"] },
+        "amountUsd": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId", "idempotencyKey", "type", "deltaCoins",
+        "balanceAfter", "description", "status", "amountUsd", "createdAt"
+      ]
+    },
+    "SwipeAction": {
+      "title": "SwipeAction",
+      "description": "User like, pass, or super_like interaction.",
+      "type": "object",
+      "properties": {
+        "fromUserId": { "type": "string" },
+        "toUserId": { "type": "string" },
+        "action": { "type": "string", "enum": ["like", "pass", "super_like"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fromUserId", "toUserId", "action", "createdAt"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Mutual match and 1-on-1 conversation metadata.",
+      "type": "object",
+      "properties": {
+        "participantUids": { "type": "array" },
+        "userAId": { "type": "string" },
+        "userBId": { "type": "string" },
+        "userAName": { "type": "string" },
+        "userBName": { "type": "string" },
+        "userAPhotoKey": { "type": "string" },
+        "userBPhotoKey": { "type": "string" },
+        "lastMessageText": { "type": "string" },
+        "lastSenderId": { "type": "string" },
+        "status": { "type": "string", "enum": ["matched", "unmatched", "blocked"] },
+        "typingUserId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "participantUids", "userAId", "userBId", "userAName", "userBName",
+        "userAPhotoKey", "userBPhotoKey", "lastMessageText", "lastSenderId",
+        "status", "typingUserId", "createdAt", "updatedAt"
+      ]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Real-time chat message inside a conversation subcollection.",
+      "type": "object",
+      "properties": {
+        "conversationId": { "type": "string" },
+        "participantUids": { "type": "array" },
+        "senderId": { "type": "string" },
+        "text": { "type": "string" },
+        "mediaUri": { "type": "string" },
+        "messageType": { "type": "string", "enum": ["text", "emoji", "image", "call_event"] },
+        "coinsCharged": { "type": "integer" },
+        "readByRecipient": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "conversationId", "participantUids", "senderId", "text", "mediaUri",
+        "messageType", "coinsCharged", "readByRecipient", "createdAt", "updatedAt"
+      ]
+    },
+    "CallSession": {
+      "title": "CallSession",
+      "description": "1-on-1 audio or video call session signaling and per-minute credit metering.",
+      "type": "object",
+      "properties": {
+        "callerId": { "type": "string" },
+        "callerName": { "type": "string" },
+        "calleeId": { "type": "string" },
+        "calleeName": { "type": "string" },
+        "participantUids": { "type": "array" },
+        "callType": { "type": "string", "enum": ["audio", "video"] },
+        "status": { "type": "string", "enum": ["ringing", "connected", "ended", "rejected", "exhausted"] },
+        "rateCoinsPerMin": { "type": "integer" },
+        "durationSeconds": { "type": "integer" },
+        "totalCoinsCharged": { "type": "integer" },
+        "signalingMode": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "callerId", "callerName", "calleeId", "calleeName", "participantUids",
+        "callType", "status", "rateCoinsPerMin", "durationSeconds",
+        "totalCoinsCharged", "signalingMode", "createdAt", "updatedAt"
+      ]
+    },
+    "AppNotification": {
+      "title": "AppNotification",
+      "description": "In-app notification record for matches, messages, calls, payments, and safety.",
+      "type": "object",
+      "properties": {
+        "recipientId": { "type": "string" },
+        "actorId": { "type": "string" },
+        "type": { "type": "string", "enum": ["new_match", "new_message", "incoming_call", "payment_confirmed", "safety_notice"] },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["recipientId", "actorId", "type", "title", "body", "isRead", "createdAt", "updatedAt"]
+    },
+    "BlockRecord": {
+      "title": "BlockRecord",
+      "description": "User block relation for safety and privacy enforcement.",
+      "type": "object",
+      "properties": {
+        "blockerId": { "type": "string" },
+        "blockedId": { "type": "string" },
+        "blockedName": { "type": "string" },
+        "reason": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["blockerId", "blockedId", "blockedName", "reason", "createdAt"]
+    },
+    "ModerationReport": {
+      "title": "ModerationReport",
+      "description": "Safety and abuse report submitted by users and reviewed by admins.",
+      "type": "object",
+      "properties": {
+        "reporterId": { "type": "string" },
+        "reportedUserId": { "type": "string" },
+        "reportedUserName": { "type": "string" },
+        "category": { "type": "string" },
+        "details": { "type": "string" },
+        "status": { "type": "string", "enum": ["open", "resolved", "dismissed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "reporterId", "reportedUserId", "reportedUserName", "category",
+        "details", "status", "createdAt", "updatedAt"
+      ]
+    },
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Trusted admin role assignment document.",
+      "type": "object",
+      "properties": {
+        "adminUid": { "type": "string" },
+        "grantedBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["adminUid", "grantedBy", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/public_profiles/{userId}": {
+      "schema": "PublicProfile",
+      "description": "Public adult dating profiles without PII."
+    },
+    "/users_private/{userId}": {
+      "schema": "UserPrivateInfo",
+      "description": "Owner-isolated private contact info and 18+ / call consent."
+    },
+    "/platform_config/{configId}": {
+      "schema": "PricingConfig",
+      "description": "Dynamic backend pricing and female free-access configuration."
+    },
+    "/wallets/{userId}": {
+      "schema": "Wallet",
+      "description": "User credit wallet balances."
+    },
+    "/wallet_transactions/{txId}": {
+      "schema": "WalletTransaction",
+      "description": "Immutable idempotent coin purchase and deduction ledger."
+    },
+    "/swipes/{swipeId}": {
+      "schema": "SwipeAction",
+      "description": "User likes, passes, and super-likes."
+    },
+    "/conversations/{conversationId}": {
+      "schema": "Conversation",
+      "description": "Mutual matches and 1-on-1 conversations."
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Real-time chat messages with denormalized participantUids."
+    },
+    "/calls/{callId}": {
+      "schema": "CallSession",
+      "description": "1-on-1 audio and video call sessions and per-minute credit metering."
+    },
+    "/notifications/{notificationId}": {
+      "schema": "AppNotification",
+      "description": "Real-time user notifications."
+    },
+    "/blocks/{blockId}": {
+      "schema": "BlockRecord",
+      "description": "Blocked user records."
+    },
+    "/reports/{reportId}": {
+      "schema": "ModerationReport",
+      "description": "Safety moderation reports."
+    },
+    "/admins/{adminUid}": {
+      "schema": "AdminRecord",
+      "description": "Trusted administrator registry."
+    }
+  }
+}

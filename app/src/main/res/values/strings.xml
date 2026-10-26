@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Velour</string>
+    <string name="tagline_hero">Intentional connections, transparent chemistry.</string>
+    <string name="onboarding_subtitle">Discover verified adults 18+, connect through real-time chat and calling, with fair, upfront pricing.</string>
+    <string name="age_gate_label">I confirm I am 18 years of age or older and agree to Velour\'s Terms, Privacy Policy, and Call Consent Policy.</string>
+    <string name="btn_sign_in_google">Sign in with Google</string>
+    <string name="btn_sign_out">Sign out</string>
+    <string name="nav_discover">Discover</string>
+    <string name="nav_matches">Matches</string>
+    <string name="nav_calls">Calls</string>
+    <string name="nav_wallet">Wallet</string>
+    <string name="nav_settings">Profile</string>
+    <string name="policy_female_free_badge">Female Free-Access Active: Core chat &amp; calls are $0 (fair-use protected)</string>
+    <string name="policy_male_transparent_badge">Transparent Credit Mode: Always preview exact coin rates before paid chat or calls</string>
+    <string name="call_signaling_disclosure">Live Firestore WebRTC Signaling Mode — peer media requires a second connected device or TURN server.</string>
+    <string name="empty_discover_title">Everyone nearby has been reviewed</string>
+    <string name="empty_discover_body">Adjust your preferred age or distance filters to discover more members, or check your Matches tab.</string>
+    <string name="empty_matches_title">No mutual matches yet</string>
+    <string name="empty_matches_body">When two members like each other on Discover, your private conversation unlocks right here.</string>
+</resources>

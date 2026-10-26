@@ -1,0 +1,6 @@
+{
+  "name": "Velour",
+  "description": "Premium adult dating and social connection app with real-time matching, messaging, audio/video calling, transparent credit wallet, and moderation controls.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
